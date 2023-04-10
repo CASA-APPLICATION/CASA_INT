@@ -2,17 +2,22 @@ package kr.co.casa_int.interceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.naming.AuthenticationException;
 
 /**
  * @author gyutae park
  * @since 2023.04.10
  */
 
+@Component
 public class casaTokenInterceptor implements HandlerInterceptor{
         private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -27,11 +32,13 @@ public class casaTokenInterceptor implements HandlerInterceptor{
             logger.info("###### Checking Token ######");
             if ( !userTryToken.equals(ACCESS_TOKEN) || userTryToken.isEmpty() ){
                 //return new ResponseEntity<>("Fail : " + userTryToken, HttpStatus.INTERNAL_SERVER_ERROR);
-                return false;
+                //return false;
+                //return new ResponseEntity<>("Fail : " + userTryToken, HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new AuthenticationException("casa token is fail");
             }
             else {
                 //return new ResponseEntity<>("Success : " + userTryToken, HttpStatus.OK);
-                return true;// new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+                return true;
             }
         }
 

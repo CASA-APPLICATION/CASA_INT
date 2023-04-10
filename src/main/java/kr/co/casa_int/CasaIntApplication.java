@@ -33,7 +33,7 @@ import java.util.TimeZone;
 
 
 
-@SpringBootApplication()
+@SpringBootApplication
 @EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})
 
 public class CasaIntApplication {
