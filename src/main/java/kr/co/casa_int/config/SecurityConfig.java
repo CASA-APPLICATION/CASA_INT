@@ -40,9 +40,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
 
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
-                .requestMatchers("/users/**", "/test").hasAuthority("ROLE_USER")
+                .requestMatchers("/users/**").hasAuthority("ROLE_USER")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
-                .requestMatchers("/user/**","/test/getMapping", "/login","/join","/**").permitAll()
+                .requestMatchers("/user/**").permitAll()
                 //.anyRequest().authenticated()
                 .and();
                 // security 전에 jwt 토큰 검사가 진행된다.

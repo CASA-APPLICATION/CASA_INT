@@ -1,14 +1,13 @@
 package kr.co.casa_int.controller;
 
+import kr.co.casa_int.service.UserMgService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author gyutae park
  * @since 2023.04.10
+ * @apiNote /user/no/** : 비회원 && /user/** : 회원
  */
 
 @RestController
@@ -18,10 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserMgController {
 
+    private final UserMgService service;
+
     @GetMapping(value ={"/test"})
     public String userTestApi(){
         return "Hello /user/test Casa! ";
     }
+
+    //@PostMapping(value = {"/"})
 
 
 
