@@ -30,7 +30,10 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_SEQUENCE_ID")
-    private Long userSequenceId;
+    private Integer userSequenceId;
+
+    @Column(name = "USER_PASSWORD", nullable = false)
+    private String password;
 
     @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String userEmail;
