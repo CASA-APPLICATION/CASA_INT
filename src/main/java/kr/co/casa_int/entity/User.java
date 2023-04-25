@@ -27,10 +27,14 @@ import java.util.stream.Collectors;
 public class User implements UserDetails {
 
 
-    @Id
+    // 유저 seq
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "USER_SEQUENCE_ID")
     private Integer userSequenceId;
+
+    // 유저 Id
+    @Column(name = "USER_ID", nullable = false)
+    private String id;
 
     @Column(name = "USER_PASSWORD", nullable = false)
     private String password;
@@ -38,18 +42,51 @@ public class User implements UserDetails {
     @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String userEmail;
 
-    @Column(name = "USER_BIRTH")
-    private String userBirth;
+    // 이메일 인증 유무
+    @Column(name = "USER_EMAIL_CERTIFICATION", nullable = false, unique = true)
+    private String userEmail_certification;
 
-    @Column(name = "USER_NICKNAME")
+    // 계정 잠김 유무
+    // 영구밴 넣으면 될듯.
+    // 탈퇴회원도 넣어도 될듯.
+    @Column(name = "USER_BEN", nullable = false, unique = true)
+    private String userBEN;
+
+    @Column(name = "USER_NICKNAME", nullable = false, unique = true)
     private String userNickname;
 
-    @Column(name = "GENDER")
+    /*
+    // 권한목록
+    @Column(name = "USER_AUTH_LIST")
+    private List<String> userAUTH;
+    */
+    @Column(name = "USER_GENDER")
     private String gender;
+
+    @Column(name = "USER_IMG_URL")
+    private String imgURL;
+
+    @Column(name = "USER_SNS")
+    private String sns;
+
+    @Column(name = "USER_INTRO")
+    private String intro;
+
+    @Column(name = "PHONE_NUMBER")
+    private String phoneNumber;
+
+    @Column(name = "USER_AGREE_DATE")
+    private String agreeDate;
+
+    /*
+    @Column(name = "USER_BIRTH")
+    private String userBirth;
+    */
 
     @Column(name = "ADMIN")
     private String admin;
 
+    // 권한 목록
     @Column(name = "ROLE")
     private String role;
 

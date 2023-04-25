@@ -33,6 +33,14 @@ dependencies {
 
 	// entity & dto mapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
+
+	//  메세지 & coolsms https://mvnrepository.com/artifact/net.nurigo/sdk
+	implementation group: 'net.nurigo', name: 'sdk', version: '4.3.0'
+	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+
+
 }
 
 tasks.named('test') {
