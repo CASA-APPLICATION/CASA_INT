@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 
 public class User implements UserDetails {
 
+    @Id
+    private String uuid;
 
     // 유저 seq
     @GeneratedValue(strategy = GenerationType.AUTO)

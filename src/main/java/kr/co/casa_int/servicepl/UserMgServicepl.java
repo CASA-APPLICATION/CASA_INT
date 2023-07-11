@@ -24,6 +24,7 @@ import java.util.Optional;
  */
 
 @Service
+
 @RequiredArgsConstructor
 public class UserMgServicepl implements UserMgService {
 
@@ -71,49 +72,49 @@ public class UserMgServicepl implements UserMgService {
     // 사용자 문자 인증
     // 1. redis 인증키 확인
     // 2. 문자 인증넘버 확인
-    public boolean checkUserAuth(String uuid, String authKey) throws  Exception{
+    //public boolean checkUserAuth(String uuid, String authKey) throws  Exception{
 
         // 1.
-        String userAuthKey = redisUtil.getData(uuid);
-        if ( userAuthKey == null ){
-            throw new Exception("유효하지 않은 인증키입니다.");
-        }
-        // 2.
-        else {
-            if ( userAuthKey.equals(authKey) ){
-                // redis 에 키를 사용했으니 삭제한다.
-                redisUtil.deleteData(uuid);
-                return true;
-            }
-            else{
-                return false;
-            }
-        }
-    }
+//        String userAuthKey = redisUtil.getData(uuid);
+//        if ( userAuthKey == null ){
+//            throw new Exception("유효하지 않은 인증키입니다.");
+//        }
+//        // 2.
+//        else {
+//            if ( userAuthKey.equals(authKey) ){
+//                // redis 에 키를 사용했으니 삭제한다.
+//                redisUtil.deleteData(uuid);
+//                return true;
+//            }
+//            else{
+//                return false;
+//            }
+//        }
+    //}
 
     // 회원정보 수정
     // 비밀번호와 같은 경우는, 사용자가 입력한 비밀번호를 암호화하여 DB에 저장된 값과 비교하여 매칭한다.
-    @Transactional
-    public String updateUser(updateUserInfo userInfo, User loginUser) throws  Exception{
+    //@Transactional
+    //public String updateUser(updateUserInfo userInfo, User loginUser) throws  Exception{
 
-
-
-        ModelMapper modelMapper = new ModelMapper();
-        String userEncoderPwd = passwordEncoder.encode(userInfo.getNowPwd());
-
-        UserDto upadteUserInfo = new UserDto();
-        upadteUserInfo = modelMapper.map(loginUser, UserDto.class);
-
-        // 만약 현재 비밀번호가 일치한다면. || 비밀번호 재확인도 알맞게 입력하였다면.
-        if ( loginUser.getPassword().equals(userEncoderPwd) && userInfo.getUpdatePwd().equals(userInfo.getCheckPwd())) {
-            upadteUserInfo.setPassword(userInfo.getUpdatePwd());
-            return "updateUser Success";
-        }
-        // 만약 현재 비밀번호가 일치하지 않거나, 비밀번호 재확인이 일치하지 않는다면.
-        else {
-            return "updateUser Fail";
-        }
-
-    }
+//
+//
+//        ModelMapper modelMapper = new ModelMapper();
+//        String userEncoderPwd = passwordEncoder.encode(userInfo.getNowPwd());
+//
+//        UserDto upadteUserInfo = new UserDto();
+//        upadteUserInfo = modelMapper.map(loginUser, UserDto.class);
+//
+//        // 만약 현재 비밀번호가 일치한다면. || 비밀번호 재확인도 알맞게 입력하였다면.
+//        if ( loginUser.getPassword().equals(userEncoderPwd) && userInfo.getUpdatePwd().equals(userInfo.getCheckPwd())) {
+//            upadteUserInfo.setPassword(userInfo.getUpdatePwd());
+//            return "updateUser Success";
+//        }
+//        // 만약 현재 비밀번호가 일치하지 않거나, 비밀번호 재확인이 일치하지 않는다면.
+//        else {
+//            return "updateUser Fail";
+//        }
+//
+//    }
 
 }

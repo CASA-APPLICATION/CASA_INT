@@ -27,7 +27,7 @@ public class SecurityConfig {
 
     //private final JwtTokenProvider jwtTokenProvider;
     //private final CustomOAuth2UserService customOAuth2UserService;
-    private final UserMgService service;
+    //private final UserMgService service;
 
 
     //20221220

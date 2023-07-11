@@ -4,6 +4,7 @@ import kr.co.casa_int.dto.updateUserInfo;
 import kr.co.casa_int.entity.User;
 import kr.co.casa_int.service.UserMgService;
 import kr.co.casa_int.utils.PhoneNumberChk;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +29,12 @@ import java.util.Objects;
 @RequestMapping( value = "/user")
 // 임시로 다 뚫어둠
 @CrossOrigin("*")
+
 @RequiredArgsConstructor
 public class UserMgController {
 
     private final UserMgService service;
-    private final PhoneNumberChk phoneNumberChk;
+    //private final PhoneNumberChk phoneNumberChk;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
     @GetMapping(value = {"/test"})
@@ -67,26 +69,27 @@ public class UserMgController {
 
     // 문자전송 api
     // API_USER_002
-    @PostMapping(value = {"/sendMessage/{phoneNumber}"})
-    public ResponseEntity<Object> sendMessageAuthKey(@PathVariable String phoneNumber) throws  Exception{
-
-        HashMap<String, Object> result = phoneNumberChk.sendMessage(phoneNumber);
-
-        if ( result.size() != 0 ){
-            logger.info("response=[{}]\n", result);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-        else {
-            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PostMapping(value = {"/sendMessage/{phoneNumber}"})
+//    public ResponseEntity<Object> sendMessageAuthKey(@PathVariable String phoneNumber) throws  Exception{
+//
+//        HashMap<String, Object> result = phoneNumberChk.sendMessage(phoneNumber);
+//
+//        if ( result.size() != 0 ){
+//            logger.info("response=[{}]\n", result);
+//            return new ResponseEntity<>(result, HttpStatus.OK);
+//        }
+//        else {
+//            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     // 문자 인증 api
     // API_USER_003
     @GetMapping(value = {"/chkAuthUserPhone/{phoneNumber}/{authKey}"})
     public ResponseEntity<Object> chkPhoneUserPhone(@PathVariable String phoneNumber, @PathVariable String authKey) throws Exception{
 
-        boolean response = service.checkUserAuth(phoneNumber, authKey);
+        //boolean response = service.checkUserAuth(phoneNumber, authKey);
+        boolean response = false;
 
         // redis 에 인증키가 있을 경우
         if ( response == true ){
@@ -117,7 +120,8 @@ public class UserMgController {
         logger.info("loginUser=[{}]\n", loginUser.getUserNickname());
 
         // 회원정보 수정
-        String response = service.updateUser(userInfo, loginUser);
+        //String response = service.updateUser(userInfo, loginUser);
+        String response = "False";
 
         logger.info("response=[{}]\n", response);
 

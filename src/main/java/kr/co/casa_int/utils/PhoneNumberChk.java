@@ -1,5 +1,6 @@
 package kr.co.casa_int.utils;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
@@ -7,6 +8,7 @@ import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
 import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -18,7 +20,8 @@ import java.util.UUID;
  * @since 2023.04.25
  */
 @Component
-@RequiredArgsConstructor
+
+
 public class PhoneNumberChk {
 
     final DefaultMessageService messageService;
@@ -53,7 +56,7 @@ public class PhoneNumberChk {
         // redis 에 인증링크를 저장
         UUID uuid = UUID.randomUUID();
         // redis 에 key : value -> uuid : 난수값 생성
-        redisUtil.setDataExpire(uuid.toString(), numStr, 60 * 30L);
+        //redisUtil.setDataExpire(uuid.toString(), numStr, 60 * 30L);
 
         HashMap<String, Object> result = new HashMap<String, Object>();
         // uuid 로 할지, phone number 로 할지 고민
