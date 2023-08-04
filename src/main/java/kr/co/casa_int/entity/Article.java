@@ -1,8 +1,6 @@
 package kr.co.casa_int.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -12,13 +10,21 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 
+/***
+ * @author gyutae park
+ * @since 2023-08-04 ~ing
+ */
 public class Article {
+
+    // 전체적으로 not null 추가해야함.
 
     @Id
     @Column(name = "article_id")
     private int articleId;
 
-    @Column(name = "user_id")
+    // 뒤에 target entity 등 작성해야함.
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private int userId;
 
     @Column(name = "article_name")
