@@ -1,10 +1,15 @@
 package kr.co.casa_int.controller;
 
 
+import kr.co.casa_int.entity.Article;
+import kr.co.casa_int.repository.ArticleRepo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // 아래와 같이 맡은 부분의 이름과 날짜를 적는다.
 /**
@@ -19,10 +24,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class sampleController {
 
+    private final ArticleRepo articleRepo;
+
     // 프로젝트 테스트를 위한 기본 apid
     @GetMapping( value = {"/api"})
     public String testController() {
         return "Hello Casa";
+    }
+
+    // article 관련
+    @GetMapping(value = {"/get/article"})
+    public ResponseEntity<List<Article>> getArticle() {
+        List<Article> articles = new ArrayList<Article>();
+        articles = articleRepo.findAll();
+        return new ResponseEntity<>(articles, HttpStatus.OK) ;
+    }
+    @PostMapping(value = {"/post/article"})
+    public ResponseEntity<Article> postArticle(@RequestBody Article article){
+
+        articleRepo.save(article);
+        return new ResponseEntity<>(article, HttpStatus.OK);
+
     }
 
 }
