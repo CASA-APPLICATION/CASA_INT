@@ -23,8 +23,9 @@ public class Article {
     private int articleId;
 
     // 뒤에 target entity 등 작성해야함.
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    //@ManyToOne
+    //@JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     private int userId;
 
     @Column(name = "article_name")

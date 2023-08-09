@@ -33,13 +33,13 @@ public class sampleController {
     }
 
     // article 관련
-    @GetMapping(value = {"/get/article"})
+    @GetMapping(value = {"/get/user/article"})
     public ResponseEntity<List<Article>> getArticle() {
         List<Article> articles = new ArrayList<Article>();
         articles = articleRepo.findAll();
         return new ResponseEntity<>(articles, HttpStatus.OK) ;
     }
-    @PostMapping(value = {"/post/article"})
+    @PostMapping(value = {"/post/member/article"})
     public ResponseEntity<Article> postArticle(@RequestBody Article article){
 
         articleRepo.save(article);
