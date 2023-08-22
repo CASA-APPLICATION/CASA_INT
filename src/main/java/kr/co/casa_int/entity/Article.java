@@ -22,9 +22,11 @@ public class Article {
     @Column(name = "article_id")
     private int articleId;
 
-    // 뒤에 target entity 등 작성해야함.
-    //@ManyToOne
-    //@JoinColumn(name = "user_id")
+    // 추후 jpa 를 이용해서 조인을 할때 필요한 컬럼
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private User user;
+
     @Column(name = "user_id")
     private int userId;
 

@@ -44,5 +44,4 @@ public class CasaIntApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CasaIntApplication.class, args);
 	}
-
 }

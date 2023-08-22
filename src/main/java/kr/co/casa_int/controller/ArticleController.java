@@ -8,6 +8,8 @@ import kr.co.casa_int.entity.LikeArticle;
 import kr.co.casa_int.entity.User;
 import kr.co.casa_int.repository.ArticleRepo;
 import kr.co.casa_int.repository.LikeArticleRepo;
+import kr.co.casa_int.repository.UserMgRepo;
+import kr.co.casa_int.service.UserMgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -23,7 +25,7 @@ import java.util.Objects;
 @RestController
 // 임시로 전체 허용
 @CrossOrigin("*")
-@RequestMapping(value = "/user")
+@RequestMapping(value = "article")
 
 @RequiredArgsConstructor
 @Slf4j
@@ -35,11 +37,12 @@ import java.util.Objects;
 
 public class ArticleController {
 
+    private final UserMgRepo userMgRepo;
     private final ArticleRepo articleRepo;
     private final LikeArticleRepo likeArticleRepo;
     //private final EntityManager entityManager;
 
-    @GetMapping("/get/user/article/{where}")
+    @GetMapping("/get/user/{where}")
     public ResponseEntity<Object> getArticle(@PathVariable(name ="where", required = false) String specificArticle, Principal principal, @RequestBody Article article) throws  Exception {
 
         /**
@@ -66,7 +69,8 @@ public class ArticleController {
 //                return null;
 //            }
             // 특정 작가 검색일 경우
-            return new ResponseEntity<>(specificArticle,HttpStatus.OK);
+            //return new ResponseEntity<>(specificArticle,HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
 
         }
@@ -76,6 +80,8 @@ public class ArticleController {
 
     @PostMapping("/post/member/article")
     public ResponseEntity<Article> registerArticle(Principal principal) throws  Exception{
+
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

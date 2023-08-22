@@ -31,6 +31,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin
+	implementation group: 'org.springframework.boot', name: 'spring-boot-maven-plugin', version: '3.1.2'
+
+
 	// entity & dto mapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 

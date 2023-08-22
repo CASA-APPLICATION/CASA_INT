@@ -62,11 +62,19 @@ public class SecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         logger.info("##### Access filterChain #####");
 
+        /**
+         * 2023-08-13 로그인 구현
+         *
+         */
         //http.cors().disable();
         http.csrf().disable();
-        http.formLogin().disable();
-        http.httpBasic().disable()
-                .authorizeHttpRequests()
+        //http.formLogin().disable();
+
+
+
+
+        //http.httpBasic().disable()
+                http.authorizeHttpRequests()
 
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
                 .requestMatchers("/member/**").hasAuthority("ROLE_USER")
@@ -85,10 +93,18 @@ public class SecurityConfig  {
                         "/webjars/**",
                         // -- Swagger UI v3 (Open API)
                         "/v3/api-docs/**",
-                        "/swagger-ui/**").permitAll()
+                        "/swagger-ui/**",
+                        "/login").permitAll()
 
                 //.anyRequest().authenticated()
-                .and();
+                .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/loginPro")
+                    .defaultSuccessUrl("/");
+                //.and()
+                //.build();
+
                 // security 전에 jwt 토큰 검사가 진행된다.
 
                 // jwt 부분 추가해야함
