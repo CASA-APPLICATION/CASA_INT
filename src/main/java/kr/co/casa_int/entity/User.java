@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,47 +27,39 @@ import java.util.stream.Collectors;
 
 public class User implements UserDetails {
 
-    @Id
-    private String uuid;
 
-    // 유저 seq
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "USER_SEQUENCE_ID")
-    private Integer userSequenceId;
+    @Column(name = "USER_ID")
+    private Integer id;
 
     // 유저 Id
-    @Column(name = "USER_ID", nullable = false)
-    private String id;
+    @Column(name = "USER_LOGIN_ID", nullable = false, unique = true)
+    private String loginId;
 
-    @Column(name = "USER_PASSWORD", nullable = false)
-    private String password;
+    @Column(name = "USER_PASSWD", nullable = false)
+    private String passwd;
 
-    @Column(name = "USER_EMAIL", nullable = false, unique = true)
-    private String userEmail;
+    @Column(name = "USER_EMAIL", nullable = false)
+    private String email;
 
-    // 이메일 인증 유무
-    @Column(name = "USER_EMAIL_CERTIFICATION", nullable = false, unique = true)
-    private String userEmail_certification;
+    @Column(name = "USER_EMAIL_CERT", nullable = false)
+    private String emailCert;
 
-    // 계정 잠김 유무
-    // 영구밴 넣으면 될듯.
-    // 탈퇴회원도 넣어도 될듯.
-    @Column(name = "USER_BEN", nullable = false, unique = true)
-    private String userBEN;
+    @Column(name = "USER_ID_LOCK", nullable = false)
+    private String idLock;
 
-    @Column(name = "USER_NICKNAME", nullable = false, unique = true)
-    private String userNickname;
+    @Column(name = "USER_NICKNAME", nullable = false)
+    private String nickname;
 
-    /*
-    // 권한목록
-    @Column(name = "USER_AUTH_LIST")
-    private List<String> userAUTH;
-    */
-    @Column(name = "USER_GENDER")
+    @Column(name = "USER_AUTH", nullable = false)
+    private String auth;
+
+    @Column(name = "USER_GENDER", nullable = false)
     private String gender;
 
-    @Column(name = "USER_IMG_URL")
-    private String imgURL;
+    @Column(name = "USER_IMAGE_URL", nullable = false)
+    private String imageUrl;
 
     @Column(name = "USER_SNS")
     private String sns;
@@ -74,23 +67,18 @@ public class User implements UserDetails {
     @Column(name = "USER_INTRO")
     private String intro;
 
-    @Column(name = "PHONE_NUMBER")
+    @Column(name = "USER_PHONE_NUMBER", nullable = false)
     private String phoneNumber;
 
-    @Column(name = "USER_AGREE_DATE")
-    private String agreeDate;
+    @Column(name = "USER_TERMS_AGREE_DATE")
+    private Date termsAgreeDate;
 
-    /*
-    @Column(name = "USER_BIRTH")
-    private String userBirth;
-    */
+    @Column(name = "USER_BAN", nullable = false)
+    private String userBan;
 
-    @Column(name = "ADMIN")
-    private String admin;
 
-    // 권한 목록
-    @Column(name = "ROLE")
-    private String role;
+
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
@@ -111,7 +99,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userEmail;
+        return nickname;
     }
 
     @Override
