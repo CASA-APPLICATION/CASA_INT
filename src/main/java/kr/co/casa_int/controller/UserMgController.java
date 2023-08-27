@@ -37,10 +37,13 @@ public class UserMgController {
     //private final PhoneNumberChk phoneNumberChk;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
+
+
     @GetMapping(value = {"/test"})
     public String userTestApi() {
         return "Hello /user/test Casa! ";
     }
+
 
     // 아이디 생성 API
     // API_USER_001
@@ -66,6 +69,8 @@ public class UserMgController {
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     // 문자전송 api
     // API_USER_002

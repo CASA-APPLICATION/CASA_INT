@@ -36,26 +36,19 @@ public class sampleController {
     }
 
     // article 관련
-//    @GetMapping(value = {"/get/article"})
-//    public ResponseEntity<List<Article>> getArticle() {
-//        List<Article> articles = new ArrayList<Article>();
-//        articles = articleRepo.findAll();
-//        return new ResponseEntity<>(articles, HttpStatus.OK) ;
-//    }
-//    @PostMapping(value = {"/post/article"})
-//    public ResponseEntity<Article> postArticle(@RequestBody Article article){
-//
-//        articleRepo.save(article);
-//        return new ResponseEntity<>(article, HttpStatus.OK);
-//
-//    }
 
-    //User 관련
-    @GetMapping(value = {"test/get/user"})
-    public ResponseEntity<List<User>> getUser(){
-        List<User> users = new ArrayList<User>();
-        users = userMgRepo.findAll();
-        return new ResponseEntity<>(users,HttpStatus.OK);
+    @GetMapping(value = {"/get/user/article"})
+    public ResponseEntity<List<Article>> getArticle() {
+        List<Article> articles = new ArrayList<Article>();
+        articles = articleRepo.findAll();
+        return new ResponseEntity<>(articles, HttpStatus.OK) ;
+    }
+    @PostMapping(value = {"/post/member/article"})
+    public ResponseEntity<Article> postArticle(@RequestBody Article article){
+
+        articleRepo.save(article);
+        return new ResponseEntity<>(article, HttpStatus.OK);
+
     }
 
 }

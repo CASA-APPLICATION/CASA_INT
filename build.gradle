@@ -31,6 +31,10 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-maven-plugin
+	implementation group: 'org.springframework.boot', name: 'spring-boot-maven-plugin', version: '3.1.2'
+
+
 	// entity & dto mapper
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 
@@ -39,7 +43,30 @@ dependencies {
 	// https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
+	// swagger
+	// 기존 의존성
 
+	// Swagger 관련 의존성 추가
+//	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+//	//implementation 'io.springfox:springfox-swagger2:3.0.0'
+//	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+//	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+//
+////	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+////// <https://mvnrepository.com/artifact/io.springfox/springfox-swagger2>
+////	implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+//
+//	//implementation 'org.springframework.boot:spring-boot-starter-actuator:2.6.7'
+
+	implementation 'io.springfox:springfox-swagger2:3.0.0'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	// spring docs
+	//implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+
+
+	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 
 }
 

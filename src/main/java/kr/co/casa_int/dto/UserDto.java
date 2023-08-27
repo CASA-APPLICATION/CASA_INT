@@ -1,6 +1,6 @@
 package kr.co.casa_int.dto;
 
-import jakarta.persistence.*;
+
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
