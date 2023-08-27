@@ -122,7 +122,7 @@ public class UserMgController {
         // https://u-it.tistory.com/entry/BCrypt-Spring-security-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%95%94%ED%98%B8%ED%99%94-%EB%B3%B5%ED%98%B8%ED%99%94-%EB%A1%9C%EC%A7%81-%ED%99%9C%EC%9A%A9
 
         logger.info("RequestBody=[{}]\n", userInfo);
-        logger.info("loginUser=[{}]\n", loginUser.getUserNickname());
+        logger.info("loginUser=[{}]\n", loginUser.getNickname());
 
         // 회원정보 수정
         //String response = service.updateUser(userInfo, loginUser);
