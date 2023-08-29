@@ -9,5 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface UserMgRepo extends JpaRepository<User, Integer> {
-    UserDto findById(String userId);
+    User findById(String userId);
+
 }
+

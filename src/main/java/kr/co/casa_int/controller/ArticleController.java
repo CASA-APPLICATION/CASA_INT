@@ -3,6 +3,7 @@ package kr.co.casa_int.controller;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
+import kr.co.casa_int.dto.UserDto;
 import kr.co.casa_int.entity.Article;
 import kr.co.casa_int.entity.LikeArticle;
 import kr.co.casa_int.entity.User;
@@ -79,8 +80,17 @@ public class ArticleController {
     }
 
     @PostMapping("/post/member/article")
-    public ResponseEntity<Article> registerArticle(Principal principal) throws  Exception{
+    public ResponseEntity<Article> registerArticle(@RequestBody Article article ,Principal principal) throws  Exception{
 
+        try{
+            User user = userMgRepo.findById(principal.getName().toString());
+            // int userSeq = user.getUserSequenceId();
+
+        }catch (Exception e){
+
+        }
+
+        articleRepo.save(article);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

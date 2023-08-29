@@ -2,8 +2,10 @@ package kr.co.casa_int.controller;
 
 
 //import kr.co.casa_int.entity.Article;
+import kr.co.casa_int.entity.Article;
 import kr.co.casa_int.entity.User;
 //import kr.co.casa_int.repository.ArticleRepo;
+import kr.co.casa_int.repository.ArticleRepo;
 import kr.co.casa_int.repository.UserMgRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +28,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class sampleController {
 
-//    private final ArticleRepo articleRepo;
+    private final ArticleRepo articleRepo;
     private final UserMgRepo userMgRepo;
 
     // 프로젝트 테스트를 위한 기본 apid
