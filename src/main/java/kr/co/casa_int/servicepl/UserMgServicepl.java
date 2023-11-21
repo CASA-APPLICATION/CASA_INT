@@ -53,7 +53,7 @@ public class UserMgServicepl implements UserMgService {
             // 회원가입 성공
             else {
                 // 비밀번호 암호화
-                String encoderPassword = passwordEncoder.encode(userInfo.getPassword());
+                String encoderPassword = passwordEncoder.encode(userInfo.getPasswd());
                 // 비밀번호를 등록하기 위해 Dto 로 전환
                 UserDto newUser = modelMapper.map(userInfo, UserDto.class);
                 // 비밀번호 암호화로 변경

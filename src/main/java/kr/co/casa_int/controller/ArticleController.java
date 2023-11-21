@@ -1,6 +1,7 @@
 package kr.co.casa_int.controller;
 
 
+import io.swagger.annotations.ApiOperation;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
 import kr.co.casa_int.dto.UserDto;
@@ -26,7 +27,7 @@ import java.util.Objects;
 @RestController
 // 임시로 전체 허용
 @CrossOrigin("*")
-@RequestMapping(value = "article")
+@RequestMapping(value = "/article")
 
 @RequiredArgsConstructor
 @Slf4j
@@ -78,21 +79,28 @@ public class ArticleController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
+    @ApiOperation(
+            value = "작품 등록"
+            , notes = "현재, 회원과 관련된 api 와 테이블이 정확히 정의가 안 되어 있어서, 하드코딩으로 하나의 유저가 있다고 가정하여 진행됨")
     @PostMapping("/post/member/article")
     public ResponseEntity<Article> registerArticle(@RequestBody Article article ,Principal principal) throws  Exception{
 
         try{
-            User user = userMgRepo.findById(principal.getName().toString());
+            // 회원 검색
+            //User user = userMgRepo.findById(principal.getName().toString());
             // int userSeq = user.getUserSequenceId();
 
-        }catch (Exception e){
+            // 작품 등록
+            articleRepo.save(article);
 
+            // 200OK
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        }catch (Exception e){
+            // 내부 회원 아이디가 없거나, 다른 오류 상의 내부 에러가 발생하였을 때.
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        articleRepo.save(article);
-
-        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

@@ -79,7 +79,7 @@ public class SecurityConfig  {
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
                 .requestMatchers("/member/**").hasAuthority("ROLE_USER")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
-                .requestMatchers("/user/**", "/test/**",
+                .requestMatchers("/noUser/**","/user/no/**","/user/**", "/test/**",
                         // -- Static resources
                         "/css/**",
                         "/images/**",
@@ -97,11 +97,11 @@ public class SecurityConfig  {
                         "/login").permitAll()
 
                 //.anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/loginPro")
-                    .defaultSuccessUrl("/");
+                .and();
+//                .formLogin()
+//                    .loginPage("/login")
+//                    .loginProcessingUrl("/loginPro")
+//                    .defaultSuccessUrl("/");
                 //.and()
                 //.build();
 
