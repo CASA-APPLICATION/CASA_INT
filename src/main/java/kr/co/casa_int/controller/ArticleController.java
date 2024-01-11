@@ -11,6 +11,7 @@ import kr.co.casa_int.entity.User;
 import kr.co.casa_int.repository.ArticleRepo;
 import kr.co.casa_int.repository.LikeArticleRepo;
 import kr.co.casa_int.repository.UserMgRepo;
+import kr.co.casa_int.service.ArticleService;
 import kr.co.casa_int.service.UserMgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +40,11 @@ import java.util.Objects;
 
 public class ArticleController {
 
+    // Repo 쪽 지우고 서비스로 대체하자.
     private final ArticleRepo articleRepo;
     private final LikeArticleRepo likeArticleRepo;
+    private final ArticleService articleService;
+
     //private final EntityManager entityManager;
 
     @GetMapping("/get/user/{where}")
@@ -86,12 +90,12 @@ public class ArticleController {
 
         try{
             // 회원 검색
-            //User user = userMgRepo.findById(principal.getName().toString());
-            // int userSeq = user.getUserSequenceId();
+//            User user = userMgRepo.findById(principal.getName());
+//            int userSeq = user.getUserSequenceId();
 
             // 작품 등록
-            articleRepo.save(article);
-
+            String result = articleService.registerArticle(article);
+            log.debug(result);
             // 200OK
             return new ResponseEntity<>(HttpStatus.OK);
 
