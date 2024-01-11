@@ -52,7 +52,8 @@ public class SecurityConfig  {
             "/webjars/**",
             // -- Swagger UI v3 (Open API)
             "/v3/api-docs/**",
-            "/swagger-ui/**"
+            "/swagger-ui/**",
+            "/article/post/member/article"
     };
 
 //    public void configure(WebSecurity web) throws Exception {
@@ -81,24 +82,9 @@ public class SecurityConfig  {
                 http.authorizeHttpRequests()
 
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
-                .requestMatchers("/member/**").hasAuthority("user")
+                .requestMatchers("/user/**").hasAuthority("user")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
-                .requestMatchers("/noUser/**","/user/no/**","/user/**", "/test/**",
-                        // -- Static resources
-                        "/css/**",
-                        "/images/**",
-                        "/js/**",
-                        // -- Swagger UI v2
-                        "/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**",
-                        // -- Swagger UI v3 (Open API)
-                        "/v3/api-docs/**",
-                        "/swagger-ui/**",
-                        "/login").permitAll()
+                .requestMatchers(AUTH_WHITELIST).permitAll()
 
                 //.anyRequest().authenticated()
                 .and();
