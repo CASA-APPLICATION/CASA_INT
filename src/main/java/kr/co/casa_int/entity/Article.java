@@ -3,6 +3,8 @@ package kr.co.casa_int.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -76,7 +78,7 @@ public class Article {
     private String articleUpload;
 
     @Column(name = "article_tag")
-    private String articleTag;
+    private List<String> articleTag;
 
     @Column(name = "article_sell_Sdate")
     private String articleSellSdate;
