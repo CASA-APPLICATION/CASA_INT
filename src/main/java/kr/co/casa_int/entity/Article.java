@@ -78,7 +78,7 @@ public class Article {
     private String articleUpload;
 
     @Column(name = "article_tag")
-    private List<String> articleTag;
+    private String articleTag;
 
     @Column(name = "article_sell_Sdate")
     private String articleSellSdate;
