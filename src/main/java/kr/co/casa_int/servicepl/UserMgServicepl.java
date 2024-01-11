@@ -43,17 +43,17 @@ public class UserMgServicepl implements UserMgService {
         for ( int i = 0 ; i < users.size() ; i ++ ){
             // 대문자로 변환 후 비교
             // 이메일 중복
-            if ( !users.get(i).getEmail().toUpperCase().equals(userInfo.getEmail().toUpperCase()) ){
-                return "Email duplicate";
-            }
+//            if ( !users.get(i).getEmail().toUpperCase().equals(userInfo.getEmail().toUpperCase()) ){
+//                return "Email duplicate";
+//            }
             // 닉네임 중복
-            else if ( !users.get(i).getNickname().toUpperCase().equals(userInfo.getNickname().toUpperCase()) ){
-                return "Nickname duplicate";
-            }
+//            else if ( !users.get(i).getNickname().toUpperCase().equals(userInfo.getNickname().toUpperCase()) ){
+//                return "Nickname duplicate";
+//            }
             // 회원가입 성공
-            else {
+//            else {
                 // 비밀번호 암호화
-                String encoderPassword = passwordEncoder.encode(userInfo.getPasswd());
+                String encoderPassword = passwordEncoder.encode(userInfo.getUpw());
                 // 비밀번호를 등록하기 위해 Dto 로 전환
                 UserDto newUser = modelMapper.map(userInfo, UserDto.class);
                 // 비밀번호 암호화로 변경
@@ -63,7 +63,7 @@ public class UserMgServicepl implements UserMgService {
                 // 회원가입 완료
                 repository.save(newUserEntity);
                 return "singUp Success";
-            }
+//            }
         }
         // 유저 회원이 0명일 경우
         return "singUp Success";

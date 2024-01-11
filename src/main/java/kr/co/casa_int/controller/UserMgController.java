@@ -34,7 +34,6 @@ import java.util.Objects;
 public class UserMgController {
 
     private final UserMgService service;
-    //private final PhoneNumberChk phoneNumberChk;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
 
@@ -47,28 +46,6 @@ public class UserMgController {
 
     // 아이디 생성 API
     // API_USER_001
-    @PostMapping(value = {"/no/singUp"})
-    public ResponseEntity<String> singUp(@RequestBody User userInfo) throws Exception {
-
-        logger.info("RequestBody=[{}]\n", userInfo);
-
-        String response = service.singUp(userInfo);
-
-        logger.info("response=[{}]\n", response);
-
-        // 무언가가 중복될 경우 : 닉네임, 이메일
-        if (response.contains("duplicate")) {
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        // 아이디 생성 성공
-        else if (response.contains("Success")) {
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        }
-        // 무언가의 이유로 실패
-        else {
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
 
 
@@ -122,7 +99,7 @@ public class UserMgController {
         // https://u-it.tistory.com/entry/BCrypt-Spring-security-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%95%94%ED%98%B8%ED%99%94-%EB%B3%B5%ED%98%B8%ED%99%94-%EB%A1%9C%EC%A7%81-%ED%99%9C%EC%9A%A9
 
         logger.info("RequestBody=[{}]\n", userInfo);
-        logger.info("loginUser=[{}]\n", loginUser.getNickname());
+        //logger.info("loginUser=[{}]\n", loginUser.getNickname());
 
         // 회원정보 수정
         //String response = service.updateUser(userInfo, loginUser);

@@ -64,6 +64,8 @@ dependencies {
 	//implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
+	// entity dto mapper
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8' // Model mapper
 
 
 	implementation 'javax.servlet:javax.servlet-api:4.0.1'

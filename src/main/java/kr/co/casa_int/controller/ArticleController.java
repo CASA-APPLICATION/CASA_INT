@@ -39,7 +39,6 @@ import java.util.Objects;
 
 public class ArticleController {
 
-    private final UserMgRepo userMgRepo;
     private final ArticleRepo articleRepo;
     private final LikeArticleRepo likeArticleRepo;
     //private final EntityManager entityManager;

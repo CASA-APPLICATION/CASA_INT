@@ -1,6 +1,5 @@
 package kr.co.casa_int.controller;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import kr.co.casa_int.entity.User;
 import kr.co.casa_int.service.NoUserService;
@@ -18,27 +17,22 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Log4j2
 @RequestMapping(value = "/noUser")
-public class noUserController {
+public class NoUserController {
 
     private final NoUserService noUserService;
 
     @ApiOperation(value ="회원가입", notes = "최초 회원가입용 api")
     @PutMapping(value = {"/registerNewMember"})
-    public ResponseEntity<HashMap<String, String >> registerNewMember(@RequestBody User userInfo) {
+    public ResponseEntity<HashMap<String, String >> registerNewMember(@RequestBody User userInfo) throws Exception {
 
         HashMap<String, String> response = new HashMap<>();
-        log.info(userInfo);
-        try {
+        log.info("userInfo=[{}]", userInfo);
+        response = noUserService.registerNewMember(userInfo);
 
-            response = noUserService.registerNewMember(userInfo);
-            log.info(response);
-            return ResponseEntity.ok(response);
+        return new ResponseEntity<>(response,HttpStatus.OK);
 
-        }catch (Exception e){
-
-        }
-
-        return new ResponseEntity<>(null);
     }
+
+
 
 }

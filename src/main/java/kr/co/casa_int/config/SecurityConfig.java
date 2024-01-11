@@ -1,19 +1,25 @@
 package kr.co.casa_int.config;
 
+import kr.co.casa_int.service.UserDetailService;
 import kr.co.casa_int.service.UserMgService;
+import kr.co.casa_int.servicepl.UserDetailsServicepl;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,9 +33,11 @@ public class SecurityConfig  {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
+    private final UserDetailsServicepl customUserDetailService;
     //private final JwtTokenProvider jwtTokenProvider;
     //private final CustomOAuth2UserService customOAuth2UserService;
     //private final UserMgService service;
+
     private static final String[] AUTH_WHITELIST = {
             // -- Static resources
             "/css/**",
@@ -69,15 +77,11 @@ public class SecurityConfig  {
         //http.cors().disable();
         http.csrf().disable();
         //http.formLogin().disable();
-
-
-
-
         //http.httpBasic().disable()
                 http.authorizeHttpRequests()
 
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
-                .requestMatchers("/member/**").hasAuthority("ROLE_USER")
+                .requestMatchers("/member/**").hasAuthority("user")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
                 .requestMatchers("/noUser/**","/user/no/**","/user/**", "/test/**",
                         // -- Static resources
@@ -124,9 +128,14 @@ public class SecurityConfig  {
     // 비밀번호 암호화
     @Bean
     public PasswordEncoder getPasswordEncoder(){
+
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws  Exception{
+
+    }
 
 
 }
