@@ -1,6 +1,6 @@
 package kr.co.casa_int.servicepl;
 
-import kr.co.casa_int.config.SecurityConfig;
+import kr.co.casa_int.security.SecurityConfig;
 import kr.co.casa_int.dto.UserDto;
 import kr.co.casa_int.entity.User;
 import kr.co.casa_int.repository.NoUserMgRepo;
@@ -8,12 +8,9 @@ import kr.co.casa_int.service.NoUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 @Service
 @Log4j2
@@ -65,6 +62,15 @@ public class NoUserServicepl implements NoUserService {
             return serverResponse;
 
         }
+    }
+
+    // 로그인
+    public UserDto login(UserDto userDto) throws  Exception{
+
+        UserDto newUser = null ;
+
+        return newUser;
+
     }
 
 }

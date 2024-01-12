@@ -12,7 +12,9 @@ import java.util.Optional;
 
 public interface UserMgRepo extends JpaRepository<User, Integer> {
 
-User findByUemail(String username);
+    public User findByUemail(String username);
+
+    public UserDto findByloginId(String username);
 
 }
 

@@ -1,4 +1,4 @@
-package kr.co.casa_int.config;
+package kr.co.casa_int.security;
 
 import kr.co.casa_int.service.UserDetailService;
 import kr.co.casa_int.service.UserMgService;
@@ -33,6 +33,7 @@ public class SecurityConfig  {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
+
     private final UserDetailsServicepl customUserDetailService;
     //private final JwtTokenProvider jwtTokenProvider;
     //private final CustomOAuth2UserService customOAuth2UserService;
@@ -53,7 +54,14 @@ public class SecurityConfig  {
             // -- Swagger UI v3 (Open API)
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "/article/post/member/article"
+
+            // spring all user
+            "/article/post/member/article",
+            "/login",
+            "/noUser/login"
+
+
+
     };
 
 //    public void configure(WebSecurity web) throws Exception {
@@ -76,10 +84,11 @@ public class SecurityConfig  {
          *
          */
         //http.cors().disable();
+        // api 형식이기에 off 한다.
         http.csrf().disable();
         //http.formLogin().disable();
         //http.httpBasic().disable()
-                http.authorizeHttpRequests()
+            http.authorizeHttpRequests()
 
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
                 .requestMatchers("/user/**").hasAuthority("user")
@@ -87,12 +96,20 @@ public class SecurityConfig  {
                 .requestMatchers(AUTH_WHITELIST).permitAll()
 
                 //.anyRequest().authenticated()
-                .and();
-//                .formLogin()
-//                    .loginPage("/login")
-//                    .loginProcessingUrl("/loginPro")
-//                    .defaultSuccessUrl("/");
-                //.and()
+                .and()
+                .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/loginPro")
+                    .defaultSuccessUrl("/")
+                    .failureForwardUrl("/login")
+                .and()
+                    .logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    // 세션 무효화
+                    .invalidateHttpSession(true)
+                    // 쿠키 삭제 설정
+                    .deleteCookies("JSESSIONID");
                 //.build();
 
                 // security 전에 jwt 토큰 검사가 진행된다.
@@ -118,10 +135,11 @@ public class SecurityConfig  {
         return new BCryptPasswordEncoder();
     }
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws  Exception{
-
-    }
+    // spring boot security 일부 기능을 사용하지 않겠다는 메소드.
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws  Exception{
+//
+//    }
 
 
 }

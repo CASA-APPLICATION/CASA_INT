@@ -1,8 +1,6 @@
 package kr.co.casa_int.servicepl;
 
-import kr.co.casa_int.config.SecurityConfig;
 import kr.co.casa_int.dto.UserDto;
-import kr.co.casa_int.dto.updateUserInfo;
 import kr.co.casa_int.entity.User;
 import kr.co.casa_int.repository.UserMgRepo;
 import kr.co.casa_int.service.UserMgService;
@@ -11,12 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * @author gyutae park

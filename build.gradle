@@ -70,6 +70,13 @@ dependencies {
 
 	implementation 'javax.servlet:javax.servlet-api:4.0.1'
 
+
+
+}
+
+// 스프링 구동시 에러문구 삭제. -- 유효성 검증 부분
+dependencies {
+	implementation 'org.hibernate.validator:hibernate-validator:7.0.2.Final'
 }
 
 bootJar {

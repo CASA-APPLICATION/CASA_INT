@@ -1,4 +1,4 @@
-package kr.co.casa_int.config;
+package kr.co.casa_int.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
