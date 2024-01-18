@@ -25,10 +25,10 @@ public class NoUserController {
 
     @ApiOperation(value ="회원가입", notes = "최초 회원가입용 api")
     @PutMapping(value = {"/registerNewMember"})
-    //public ResponseEntity<HashMap<String, String >> registerNewMember(@RequestBody User userInfo) throws Exception {
+    public ResponseEntity<HashMap<String, String >> registerNewMember(@RequestBody User userInfo) throws Exception {
     // 20230112 park
     // RequestBody 에러로 인한 @ModelAttribute 대체
-    public String registerNewMember(@ModelAttribute User userInfo) throws Exception{
+    //public String registerNewMember(@ModelAttribute User userInfo) throws Exception{
 
         HashMap<String, String> response = new HashMap<>();
         log.info("userInfo=[{}]", userInfo);
@@ -36,8 +36,8 @@ public class NoUserController {
 
         // 20230112 park
         // 이 부분은 회원가입 api 이니, return 값은 front 한테 로그인 url 을 받아서 넣어줘야할거 같다.
-        //return new ResponseEntity<>(response,HttpStatus.OK);
-        return "로그인 url 보여주기";
+        return new ResponseEntity<>(response,HttpStatus.OK);
+        //return "로그인 url 보여주기";
     }
 
     /**
@@ -45,7 +45,7 @@ public class NoUserController {
      * @since 2023.01.12
      */
     @ApiOperation(value ="로그인1", notes = "로그인 api")
-    @PostMapping(value = {"/loing"})
+    @PostMapping(value = {"/login"})
     public String login(@ModelAttribute UserDto userDto) throws  Exception{
 
         UserDto loginResult = noUserService.login(userDto);

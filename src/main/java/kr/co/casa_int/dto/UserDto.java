@@ -1,6 +1,7 @@
 package kr.co.casa_int.dto;
 
 
+import jakarta.persistence.Entity;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,14 +15,16 @@ import java.util.stream.Collectors;
 
 /**
  * @author gyutae park
- * @since 2023.04.10
+ * @since 2024.01.18
  */
+
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class UserDto {
 
     private Integer id;

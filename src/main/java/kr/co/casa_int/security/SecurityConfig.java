@@ -1,43 +1,35 @@
 package kr.co.casa_int.security;
 
-import kr.co.casa_int.service.UserDetailService;
-import kr.co.casa_int.service.UserMgService;
-import kr.co.casa_int.servicepl.UserDetailsServicepl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @EnableWebSecurity
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@Log4j2
 public class SecurityConfig  {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-
-    private final UserDetailsServicepl customUserDetailService;
-    //private final JwtTokenProvider jwtTokenProvider;
-    //private final CustomOAuth2UserService customOAuth2UserService;
-    //private final UserMgService service;
+    private final CustomUserDetailService customUserDetailsService;
 
     private static final String[] AUTH_WHITELIST = {
             // -- Static resources
@@ -58,88 +50,82 @@ public class SecurityConfig  {
             // spring all user
             "/article/post/member/article",
             "/login",
-            "/noUser/login"
+            "/noUser/**"
 
 
 
     };
 
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().requestMatchers("/static/css/**, /static/js/**, *.ico");
-//
-//        // swagger
-//        web.ignoring().requestMatchers(
-//                "/v2/api-docs",  "/configuration/ui",
-//                "/swagger-resources", "/configuration/security",
-//                "/swagger-ui.html", "/webjars/**","/swagger/**");
-//    }
-
     //20221220
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        logger.info("##### Access filterChain #####");
+        log.info("##### Access filterChain #####");
+
+
 
         /**
          * 2023-08-13 로그인 구현
          *
          */
-        //http.cors().disable();
         // api 형식이기에 off 한다.
         http.csrf().disable();
-        //http.formLogin().disable();
-        //http.httpBasic().disable()
+            // page auth
             http.authorizeHttpRequests()
 
                 .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
-                .requestMatchers("/user/**").hasAuthority("user")
+                .requestMatchers("/user/**").hasAuthority("ROLE_USER")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
+            .and()
+//                // Login
+            .formLogin()
+                    .usernameParameter("uid")
+                    .passwordParameter("upw")
 
-                //.anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/loginPro")
-                    .defaultSuccessUrl("/")
-                    .failureForwardUrl("/login")
-                .and()
-                    .logout()
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/login")
-                    // 세션 무효화
-                    .invalidateHttpSession(true)
-                    // 쿠키 삭제 설정
-                    .deleteCookies("JSESSIONID");
-                //.build();
+                    .defaultSuccessUrl("/swagger-ui/index.html",true)
+                    // https://velog.io/@seongwon97/Spring-Security-Form-Login
+//                    .successHandler(
+//                            new AuthenticationSuccessHandler() {
+//                                @Override
+//                                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+//                                    log.info("authentication=[{}]",authentication.getName());
+//                                    response.sendRedirect("/swagger-ui/index.html");
+//                                }
+//                            }
+//                    )
 
-                // security 전에 jwt 토큰 검사가 진행된다.
+                    // 로그인 성공시 이동될 페이지는 허용
+                    .permitAll()
 
-                // jwt 부분 추가해야함
-                //.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-                  //      UsernamePasswordAuthenticationFilter.class);
-        //        .httpBasic(withDefaults());
+//                .loginPage("/login1")
+//                .loginProcessingUrl("/loginPro")
+//                .defaultSuccessUrl("/")
+//                .failureForwardUrl("/login")
+            .and()
+                // Logout
+                    // 로그아웃으로 인증 해제
+            .logout(Customizer.withDefaults());
+//                .logoutUrl("/logout")
+//                .logoutSuccessUrl("/login")
+//                // 세션 무효화
+//                .invalidateHttpSession(true)
+//                // 쿠키 삭제 설정
+//                .deleteCookies("JSESSIONID");
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return http.build();
     }
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
 
-        return (web) -> web.ignoring().requestMatchers( "/ignore1","/ignore2");
-    }
+
 
     // 비밀번호 암호화
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder passwordEncoder(){
 
         return new BCryptPasswordEncoder();
     }
 
-    // spring boot security 일부 기능을 사용하지 않겠다는 메소드.
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws  Exception{
-//
-//    }
 
 
 }

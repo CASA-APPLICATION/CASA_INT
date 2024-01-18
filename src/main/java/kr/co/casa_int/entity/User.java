@@ -22,7 +22,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-
+@Setter
 public class User  {
 
 
@@ -33,11 +33,14 @@ public class User  {
     @Column(nullable = false, unique = true, length=50)
     private String uid;
 
+
     @Column(nullable = false, length=200)
+
     private String upw;
 
+
     @Column(nullable = false, unique = true, length=50)
-    private String uemail;
+    private String useEmail;
 
     @CreationTimestamp
     private Date regdate;
@@ -45,9 +48,13 @@ public class User  {
     @UpdateTimestamp
     private Date updatedate;
 
-    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-    @JoinColumn(name="uid")
-    private List<UserRole> roles;
+    // ROLE_USER, ROLE_ADMIN
+    @Column(nullable = false)
+    private String role;
+
+//    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+//    @JoinColumn(name="uid")
+//    private List<UserRole> roles;
 
 
 }
