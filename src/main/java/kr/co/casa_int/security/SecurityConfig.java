@@ -72,7 +72,7 @@ public class SecurityConfig  {
             // page auth
             http.authorizeHttpRequests()
 
-                .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
+                .requestMatchers("/admin/**","/test/api").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasAuthority("ROLE_USER")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
@@ -82,7 +82,8 @@ public class SecurityConfig  {
                     .usernameParameter("uid")
                     .passwordParameter("upw")
 
-                    .defaultSuccessUrl("/swagger-ui/index.html",true)
+                    //.defaultSuccessUrl("/swagger-ui/index.html",true)
+
                     // https://velog.io/@seongwon97/Spring-Security-Form-Login
 //                    .successHandler(
 //                            new AuthenticationSuccessHandler() {

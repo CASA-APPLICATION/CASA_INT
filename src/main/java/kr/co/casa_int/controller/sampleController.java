@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import java.util.List;
  */
 
 // 어노테이션은 희망하게 적는다.
-@RestController
+@Controller
 @RequestMapping(value = "/test")
 // bean 관리는 @autowired 가 아닌 아래의 어노테이션을 활용한다
 @RequiredArgsConstructor
@@ -38,9 +39,10 @@ public class sampleController {
     }
 
     // 프로젝트 테스트를 위한 기본 apid
-    @GetMapping( value = {"/api"})
+    @PostMapping( value = {"/api"})
     public String testController() {
-        return "Hello Casa";
+
+        return "testing";
     }
 
     // article 관련

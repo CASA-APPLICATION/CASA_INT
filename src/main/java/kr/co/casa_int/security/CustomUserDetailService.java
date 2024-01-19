@@ -33,7 +33,7 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with uid=[{" + uid + "}]");
         }
         else {
-
+            log.info("access id=[{}]", uid);
             log.info("회원입니다.");
             //return
         }
