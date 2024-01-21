@@ -21,6 +21,7 @@ public class Article {
     // 전체적으로 not null 추가해야함.
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
     private int articleId;
 
