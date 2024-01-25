@@ -1,14 +1,7 @@
 package kr.co.casa_int.dto;
 
-import kr.co.casa_int.entity.UserRole;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter

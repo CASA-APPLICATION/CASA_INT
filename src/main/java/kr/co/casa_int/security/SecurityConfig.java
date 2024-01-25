@@ -72,8 +72,9 @@ public class SecurityConfig  {
             // page auth
             http.authorizeHttpRequests()
 
-                .requestMatchers("/admin/**","/test/api").hasRole("ADMIN")
-                .requestMatchers("/user/**").hasAuthority("ROLE_USER")
+                .requestMatchers("/admin/**","/test/api").hasAuthority("ADMIN")
+                //.requestMatchers("/user/**","/swagger-ui/index.html").hasAuthority("ROLE_USERx")
+                    .requestMatchers("/user/**").hasAuthority("ROLE_USER")
                 //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
             .and()
@@ -82,22 +83,10 @@ public class SecurityConfig  {
                     .usernameParameter("uid")
                     .passwordParameter("upw")
 
+                    // 로그인 성공했을때 진입할 경로
                     //.defaultSuccessUrl("/swagger-ui/index.html",true)
-
-                    // https://velog.io/@seongwon97/Spring-Security-Form-Login
-//                    .successHandler(
-//                            new AuthenticationSuccessHandler() {
-//                                @Override
-//                                public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//                                    log.info("authentication=[{}]",authentication.getName());
-//                                    response.sendRedirect("/swagger-ui/index.html");
-//                                }
-//                            }
-//                    )
-
                     // 로그인 성공시 이동될 페이지는 허용
                     .permitAll()
-
 //                .loginPage("/login1")
 //                .loginProcessingUrl("/loginPro")
 //                .defaultSuccessUrl("/")
