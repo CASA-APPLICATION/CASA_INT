@@ -36,7 +36,14 @@ public class UserMgController {
     private final UserMgService service;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
-
+    @GetMapping(value = {"justLoginPage"})
+    public String justLoginPage() throws  Exception {
+        return "Okay, if u can look the sentence, ur session connect is success.\n" +
+                "this is just login redirect page.\n" +
+                "so if u inform login redirect front page, i will chagne ur front page.\n" +
+                "now, The reason I use English is because Korean is broken.\n" +
+                "and then, lets develop CASA  !!";
+    }
 
     @GetMapping(value = {"/test"})
     public String userTestApi() {

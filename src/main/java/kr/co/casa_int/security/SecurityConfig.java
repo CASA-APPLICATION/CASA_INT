@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -18,6 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -26,6 +30,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @Log4j2
 public class SecurityConfig  {
+
+
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
@@ -48,9 +54,15 @@ public class SecurityConfig  {
             "/swagger-ui/**",
 
             // spring all user
-            "/article/post/member/article",
+            //"/article/post/member/article",
             "/login",
-            "/noUser/**"
+
+            // noUser
+            "/noUser/**",
+
+            // test api
+            //"/test/**",
+            "/test/logoutApi"
 
 
 
@@ -71,19 +83,19 @@ public class SecurityConfig  {
         http.csrf().disable();
             // page auth
             http.authorizeHttpRequests()
-
-                .requestMatchers("/admin/**","/test/api").hasAuthority("ADMIN")
-                //.requestMatchers("/user/**","/swagger-ui/index.html").hasAuthority("ROLE_USERx")
-                    .requestMatchers("/user/**").hasAuthority("ROLE_USER")
-                //.requestMatchers("/test/getMapping", "/login","/join").permitAll()
                 .requestMatchers(AUTH_WHITELIST).permitAll()
+                .requestMatchers("/admin/**","/test/api","/","/article/**","/user/**").hasAuthority("ROLE_ADMIN")
+                .requestMatchers("/user/**").hasAuthority("ROLE_USER")
+
             .and()
 //                // Login
             .formLogin()
                     .usernameParameter("uid")
                     .passwordParameter("upw")
+                    //.successHandler("/loing")
 
                     // 로그인 성공했을때 진입할 경로
+                    .defaultSuccessUrl("/user/justLoginPage")
                     //.defaultSuccessUrl("/swagger-ui/index.html",true)
                     // 로그인 성공시 이동될 페이지는 허용
                     .permitAll()
@@ -94,20 +106,28 @@ public class SecurityConfig  {
             .and()
                 // Logout
                     // 로그아웃으로 인증 해제
-            .logout(Customizer.withDefaults());
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/login")
+//            .logout(Customizer.withDefaults())
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
 //                // 세션 무효화
-//                .invalidateHttpSession(true)
+                .invalidateHttpSession(true)
 //                // 쿠키 삭제 설정
-//                .deleteCookies("JSESSIONID");
+                .deleteCookies("JSESSIONID")
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                    .and()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                    .invalidSessionUrl("/login");
 
         return http.build();
     }
 
-
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthSuccessHandler();
+    }
 
     // 비밀번호 암호화
     @Bean
@@ -115,6 +135,8 @@ public class SecurityConfig  {
 
         return new BCryptPasswordEncoder();
     }
+
+
 
 
 

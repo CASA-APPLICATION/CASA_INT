@@ -3,6 +3,7 @@ package kr.co.casa_int.controller;
 import io.swagger.annotations.ApiOperation;
 import kr.co.casa_int.dto.UserDto;
 import kr.co.casa_int.entity.User;
+import kr.co.casa_int.security.CustomUserDetailService;
 import kr.co.casa_int.service.NoUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,6 +23,7 @@ public class NoUserController {
 
     private final NoUserService noUserService;
 
+    private final CustomUserDetailService customUserDetailService;
 
     @ApiOperation(value ="회원가입", notes = "최초 회원가입용 api")
     @PutMapping(value = {"/registerNewMember"})
@@ -45,21 +47,27 @@ public class NoUserController {
      * @since 2023.01.12
      */
     @ApiOperation(value ="로그인1", notes = "로그인 api")
-    @PostMapping(value = {"/login"})
-    public String login(@ModelAttribute UserDto userDto) throws  Exception{
+    @PostMapping(value = {"/login/{uid}"})
+    public String login(@PathVariable String uid) throws  Exception{
 
-        UserDto loginResult = noUserService.login(userDto);
+        log.info("uid=[{}]",uid);
 
-        if(loginResult != null){
-            // 로그인 성공
-            return "";
-        }
-        else {
-            // 로그인 실패
-            return "로그인 url";
-        }
+        customUserDetailService.loadUserByUsername(uid);
 
+
+//        UserDto loginResult = noUserService.login(userDto);
+//
+//        if(loginResult != null){
+//            // 로그인 성공
+//            return "";
+//        }
+//        else {
+//            // 로그인 실패
+//            return "로그인 url";
+//        }
+        return "200tmp";
     }
+
 
 
 }

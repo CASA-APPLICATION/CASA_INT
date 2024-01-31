@@ -39,7 +39,11 @@ public class NoUserServicepl implements NoUserService {
         userDto = modelMapper.map(user, UserDto.class);
         // 여기서 비밀번호를 인코딩해서 저장.
         //userDto.setUpw(passwordEncoder.encode(userInfo.getUpw()));
+
+
         userInfo.setUpw(passwordEncoder.encode(userInfo.getUpw()));
+
+
         log.info("userDto=[{}]",userInfo);
 
         try{
