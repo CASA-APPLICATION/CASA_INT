@@ -41,14 +41,14 @@ import java.util.Objects;
 public class ArticleController {
 
     // Repo 쪽 지우고 서비스로 대체하자.
-    private final ArticleRepo articleRepo;
+//    private final ArticleRepo articleRepo;
     private final LikeArticleRepo likeArticleRepo;
     private final ArticleService articleService;
 
     //private final EntityManager entityManager;
 
-    @GetMapping("/get/user/{where}")
-    public ResponseEntity<Object> getArticle(@PathVariable(name ="where", required = false) String specificArticle, Principal principal, @RequestBody Article article) throws  Exception {
+    @GetMapping("/get/user/article/{where}/{number}")
+    public ResponseEntity<Object> getArticle(@PathVariable(name ="where") String specificArticle,@PathVariable(name="number", required = false) String number, Principal principal, @RequestBody Article article) throws  Exception {
 
         /**
          * 작품조회의 3가지 종류
@@ -60,24 +60,19 @@ public class ArticleController {
 
         try {
             // 전체 검색일 경우
-//            if ( article.getArticleCtg() == "all"){
-//                List<Article> articles = articleRepo.findAll();
-//                return new ResponseEntity<>(articles, HttpStatus.OK);
-//            }
-//            // 타입 검색일 경우
-//            else if ( article.getArticleCtg() != "all" && article.getUserId() == 0 ){
-//                List<Article> articles = articleRepo.findByArticleCtg(article.getArticleCtg());
-//                return new ResponseEntity<>(articles, HttpStatus.OK);
-//            }
-//            // 특정 작가, 특정 타입 검색일 경우
-//            else if ( article.getArticleCtg() != "all" && article.getUserId() != 0){
-//                return null;
-//            }
-            // 특정 작가 검색일 경우
-            //return new ResponseEntity<>(specificArticle,HttpStatus.OK);
+            if (Objects.equals(specificArticle, "all")){
+                List<Article> articles = articleService.findAll();
+                return new ResponseEntity<>(articles, HttpStatus.OK);
+            }
+            // 타입 검색일 경우
+            else if (Objects.equals(specificArticle, "category") && number != null){
+                List<Article> articles = articleService.findByArticleCtg(number);
+                return new ResponseEntity<>(articles, HttpStatus.OK);
+            }
+
             return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
-
+            e.printStackTrace();
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
