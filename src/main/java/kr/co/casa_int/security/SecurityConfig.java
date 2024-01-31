@@ -124,10 +124,6 @@ public class SecurityConfig  {
         return http.build();
     }
 
-    @Bean
-    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
-        return new CustomAuthSuccessHandler();
-    }
 
     // 비밀번호 암호화
     @Bean
