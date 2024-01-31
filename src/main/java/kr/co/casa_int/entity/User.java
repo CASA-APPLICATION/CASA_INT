@@ -20,7 +20,7 @@ import java.util.*;
 @AllArgsConstructor
 @ToString
 @Setter
-public class User { //implements UserDetails {
+public class User {
 
 
     @Id
@@ -32,56 +32,54 @@ public class User { //implements UserDetails {
 
 
     @Column(nullable = false, length=200)
-
     private String upw;
 
 
     @Column(nullable = false, unique = true, length=50)
     private String useEmail;
 
-    @CreationTimestamp
-    private Date regdate;
+    @Column()
+    private String emailLock;
 
-    @UpdateTimestamp
-    private Date updatedate;
+    @Column
+    private String idLock;
 
-//    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @Enumerated(EnumType.STRING)
-
-
-    // ROLE_USER, ROLE_ADMIN
-
-//    @ManyToMany(cascade=CascadeType.MERGE)
-//    @JoinTable(
-//    name="user_role",
-//    joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-//    inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-
-
-
-//    @ElementCollection(targetClass = UserRole.class, fetch = FetchType.EAGER)
-//    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
-//    @Enumerated(EnumType.STRING)
-//    private Set<UserRole> roles;
-
+    @Column(nullable = false, unique = true, length = 10)
+    private String nickName;
 
     // 20240124
     @Column(nullable = false)
     private String role;
 
+    @Column(nullable = false)
+    private String gender;
 
-//    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-//    @JoinColumn(name="uid")
-//    private List<UserRole> roles;
+    @Column
+    private String imgURL;
 
-    //출처: https://zeroco.tistory.com/102 [zeroco:티스토리]
-//    @ManyToMany(cascade=CascadeType.MERGE)
-//    @JoinTable(
-//            name="user_role",
-//            joinColumns={@JoinColumn(name="USER_ID", referencedColumnName="ID")},
-//            inverseJoinColumns={@JoinColumn(name="ROLE_ID", referencedColumnName="ID")})
-//    private List<Role> roles;
+    @Column
+    private String snsList;
+
+    @Column
+    private String infoSelf;
+
+    @Column(nullable = false, unique = true)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    private String agreeRule;
+
+    @Column
+    private String foreverBan;
+
+    @Column
+    private String leaveUser;
+
+    @CreationTimestamp
+    private Date regdate;
+
+    @UpdateTimestamp
+    private Date updatedate;
 
 
 

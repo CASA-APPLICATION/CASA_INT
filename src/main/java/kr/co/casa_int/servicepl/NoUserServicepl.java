@@ -8,8 +8,11 @@ import kr.co.casa_int.service.NoUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.HashMap;
 
@@ -20,17 +23,12 @@ public class NoUserServicepl implements NoUserService {
 
     private final NoUserMgRepo noUserMgRepo;
     //private final TestNoUserMgRepo noUserMgRepo;
-
     private final PasswordEncoder passwordEncoder;
-
     private final ModelMapper modelMapper;
-    private final SecurityConfig securityConfig;
 
-    public HashMap<String, String> registerNewMember(User userInfo) throws Exception {
+    public ResponseEntity<String> registerNewMember(User userInfo) throws Exception {
 
         log.info("userInfo=[{}]",userInfo);
-
-        HashMap<String, String> serverResponse = new HashMap<>();
 
         UserDto userDto = new UserDto();
         User user = new User();
@@ -38,37 +36,26 @@ public class NoUserServicepl implements NoUserService {
         // entity to dto
         userDto = modelMapper.map(user, UserDto.class);
         // 여기서 비밀번호를 인코딩해서 저장.
-        //userDto.setUpw(passwordEncoder.encode(userInfo.getUpw()));
-
-
         userInfo.setUpw(passwordEncoder.encode(userInfo.getUpw()));
-
-
         log.info("userDto=[{}]",userInfo);
+        // 회원 아이디 중복 확인
+        if ( noUserMgRepo.findByUid(userInfo.getUid()) != null ) {
+            return new ResponseEntity<>("uid is already taken", HttpStatus.CONFLICT);
+        }
+        // 회원 이메일 중복 확인, 회원 휴대폰 번호 중복 확인
+        if ( noUserMgRepo.findByUseEmail(userInfo.getUseEmail()) != null ) {
+            return new ResponseEntity<>("user email is already taken", HttpStatus.CONFLICT);
+        }
+        // 회원 비밀번호 적합여부 확인
 
         try{
             noUserMgRepo.save(userInfo);
             log.info("user info :[{}]",userInfo);
-//            serverResponse.put("resultCode", "200OK");
-//            serverResponse.put("user", userInfo.toString());
-            // 회원 아이디 중복 확인
-
-            // 회원 이메일 중복 확인, 회원 휴대폰 번호 중복 확인
-
-
-            // 회원 비밀번호 적합여부 확인
-
-            //
-
-            return serverResponse;
-
+            return new ResponseEntity<>("registerNewMember is Success", HttpStatus.OK);
         }catch (Exception e){
             log.info("user=[{}]", user);
-            serverResponse.put("resultCode", "500ERROR");
-            serverResponse.put("errorCode", e.toString());
             log.info(e.toString());
-            return serverResponse;
-
+            return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

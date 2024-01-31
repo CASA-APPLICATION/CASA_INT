@@ -10,4 +10,8 @@ public interface NoUserMgRepo extends JpaRepository<User, Integer> {
 
     //void save(TestUserDto dto);
 
+    User findByUid(String uid);
+    User findByUseEmail(String emailURL);
+
+
 }
