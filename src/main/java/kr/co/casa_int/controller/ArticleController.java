@@ -48,7 +48,7 @@ public class ArticleController {
     //private final EntityManager entityManager;
 
     @GetMapping("/get/user/article/{where}/{number}")
-    public ResponseEntity<Object> getArticle(@PathVariable(name ="where") String specificArticle,@PathVariable(name="number", required = false) String number, Principal principal, @RequestBody Article article) throws  Exception {
+    public ResponseEntity<Object> getArticle(@PathVariable(name ="where") String specificArticle,@PathVariable(name="number", required = false) String number, Principal principal) throws  Exception {
 
         /**
          * 작품조회의 3가지 종류
