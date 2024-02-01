@@ -30,7 +30,6 @@ public class User {
     @Column(nullable = false, unique = true, length=50)
     private String uid;
 
-
     @Column(nullable = false, length=200)
     private String upw;
 

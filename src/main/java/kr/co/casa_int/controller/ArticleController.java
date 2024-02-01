@@ -41,7 +41,7 @@ import java.util.Objects;
 public class ArticleController {
 
     // Repo 쪽 지우고 서비스로 대체하자.
-//    private final ArticleRepo articleRepo;
+    private final ArticleRepo articleRepo;
     private final LikeArticleRepo likeArticleRepo;
     private final ArticleService articleService;
 

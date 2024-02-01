@@ -33,17 +33,17 @@ import java.util.List;
 //@EnableSwagger2
 @Configuration
 //@EnableSwagger2
-@EnableWebMvc
+//@EnableWebMvc
 
 /**
  * @author gyutae park
  * @since 2023-08-07
  */
-public class SwaggerConfig extends WebMvcConfigurationSupport {
+public class SwaggerConfig{// extends WebMvcConfigurationSupport {
 
-    private static final String API_NAME = "User-server API";
+    private static final String API_NAME = "CASA-INT API";
     private static final String API_VERSION = "0.0.1";
-    private static final String API_DESCRIPTION = "User-server API 명세서입니다.";
+    private static final String API_DESCRIPTION = "CASA-INT API desc";
 
     @Bean
     public Docket api() {
@@ -54,7 +54,6 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 //.apis(RequestHandlerSelectors.basePackage("kr.co.casa_int.controller"))
                 .apis(RequestHandlerSelectors.any())
                 .paths(PathSelectors.any())
-
                 .build();
     }
 
@@ -65,6 +64,4 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
                 .description(API_DESCRIPTION)
                 .build();
     }
-
-
 }

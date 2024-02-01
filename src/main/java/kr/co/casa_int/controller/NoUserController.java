@@ -1,5 +1,6 @@
 package kr.co.casa_int.controller;
 
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import kr.co.casa_int.dto.UserDto;
 import kr.co.casa_int.entity.User;
@@ -22,7 +23,6 @@ import java.util.HashMap;
 public class NoUserController {
 
     private final NoUserService noUserService;
-
     private final CustomUserDetailService customUserDetailService;
 
     /**
@@ -33,11 +33,12 @@ public class NoUserController {
     @ApiOperation(value ="회원가입", notes = "최초 회원가입용 api")
     @PutMapping(value = {"/registerNewMember"})
     public ResponseEntity<Object> registerNewMember(@RequestBody User userInfo) throws Exception {
-
         Object response = noUserService.registerNewMember(userInfo);
-
-        return new ResponseEntity<>(response,HttpStatus.OK);
-
+        try {
+            return new ResponseEntity<>(response,HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

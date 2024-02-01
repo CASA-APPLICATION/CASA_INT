@@ -83,9 +83,12 @@ public class SecurityConfig  {
         http.csrf().disable();
             // page auth
             http.authorizeHttpRequests()
-                .requestMatchers(AUTH_WHITELIST).permitAll()
-                .requestMatchers("/admin/**","/test/api","/","/article/**","/user/**").hasAuthority("ROLE_ADMIN")
-                .requestMatchers("/user/**").hasAuthority("ROLE_USER")
+//                .requestMatchers(AUTH_WHITELIST).permitAll()
+//                .requestMatchers("/admin/**","/test/api","/","/article/**","/article/*/**","/user/**").hasAuthority("ROLE_ADMIN")
+//                .requestMatchers("/user/**").hasAuthority("ROLE_USER")
+
+                    // 모든 요청을 허용 임시.
+                    .anyRequest().permitAll()
 
             .and()
 //                // Login
