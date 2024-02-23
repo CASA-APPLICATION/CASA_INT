@@ -2,6 +2,7 @@ package kr.co.casa_int.service;
 
 import kr.co.casa_int.dto.updateUserInfo;
 import kr.co.casa_int.entity.User;
+import org.springframework.http.ResponseEntity;
 
 import java.security.Principal;
 
@@ -12,8 +13,11 @@ import java.security.Principal;
 
 public interface UserMgService {
 
+    // 탈퇴
+    public ResponseEntity<String> leaveMember(Long id);
+
     // 회원가입
-    public String singUp(User userInfo) throws  Exception;
+
     // 유저 인증키, 문자넘버 확인
     //public boolean checkUserAuth(String uuid, String authKey) throws  Exception;
     // 회원정보 수정

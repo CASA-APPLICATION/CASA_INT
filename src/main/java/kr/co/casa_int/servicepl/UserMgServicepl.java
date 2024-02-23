@@ -2,16 +2,22 @@ package kr.co.casa_int.servicepl;
 
 import kr.co.casa_int.dto.UserDto;
 import kr.co.casa_int.entity.User;
+import kr.co.casa_int.repository.NoUserMgRepo;
 import kr.co.casa_int.repository.UserMgRepo;
 import kr.co.casa_int.service.UserMgService;
 import kr.co.casa_int.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author gyutae park
@@ -19,7 +25,7 @@ import java.util.List;
  */
 
 @Service
-
+@Log4j2
 @RequiredArgsConstructor
 public class UserMgServicepl implements UserMgService {
 
@@ -27,42 +33,23 @@ public class UserMgServicepl implements UserMgService {
     private final PasswordEncoder passwordEncoder;
     private final RedisUtil redisUtil ;
 
+    private final NoUserMgRepo noUserMgRepo;
+    private final UserMgRepo userMgRepo;
 
-    // 회원가입
-    public String singUp(User userInfo) throws  Exception{
-
-        ModelMapper modelMapper = new ModelMapper();
-
-        List<User> users = new ArrayList<User>();
-
-        for ( int i = 0 ; i < users.size() ; i ++ ){
-            // 대문자로 변환 후 비교
-            // 이메일 중복
-//            if ( !users.get(i).getEmail().toUpperCase().equals(userInfo.getEmail().toUpperCase()) ){
-//                return "Email duplicate";
-//            }
-            // 닉네임 중복
-//            else if ( !users.get(i).getNickname().toUpperCase().equals(userInfo.getNickname().toUpperCase()) ){
-//                return "Nickname duplicate";
-//            }
-            // 회원가입 성공
-//            else {
-                // 비밀번호 암호화
-                String encoderPassword = passwordEncoder.encode(userInfo.getUpw());
-                //String encoderPassword = passwordEncoder.encode(userInfo.getPassword());
-                // 비밀번호를 등록하기 위해 Dto 로 전환
-                UserDto newUser = modelMapper.map(userInfo, UserDto.class);
-                // 비밀번호 암호화로 변경
-                newUser.setPasswd(encoderPassword);
-                // 다시 entity 로 변경
-                User newUserEntity = modelMapper.map(newUser, User.class);
-                // 회원가입 완료
-                repository.save(newUserEntity);
-                return "singUp Success";
-//            }
+    /**
+     * @apiNote 회원탈퇴
+     * @param id
+     * @return
+     */
+    @Transactional
+    public ResponseEntity<String> leaveMember(Long id) {
+        try {
+            Optional<User> user = userMgRepo.findById(id);
+            user.ifPresent(value -> value.setLeaveUser("true"));
+            return new ResponseEntity<>(user.toString(), HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        // 유저 회원이 0명일 경우
-        return "singUp Success";
     }
 
     // 사용자 문자 인증

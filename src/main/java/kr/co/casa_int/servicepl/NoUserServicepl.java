@@ -22,6 +22,7 @@ import java.util.HashMap;
 public class NoUserServicepl implements NoUserService {
 
     private final NoUserMgRepo noUserMgRepo;
+
     //private final TestNoUserMgRepo noUserMgRepo;
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
@@ -37,6 +38,7 @@ public class NoUserServicepl implements NoUserService {
         userDto = modelMapper.map(user, UserDto.class);
         // 여기서 비밀번호를 인코딩해서 저장.
         userInfo.setUpw(passwordEncoder.encode(userInfo.getUpw()));
+        userInfo.setLeaveUser("False");
         log.info("userDto=[{}]",userInfo);
         // 회원 아이디 중복 확인
         if ( noUserMgRepo.findByUid(userInfo.getUid()) != null ) {

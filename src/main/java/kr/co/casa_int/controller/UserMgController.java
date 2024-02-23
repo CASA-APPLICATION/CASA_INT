@@ -2,10 +2,12 @@ package kr.co.casa_int.controller;
 
 import kr.co.casa_int.dto.updateUserInfo;
 import kr.co.casa_int.entity.User;
+import kr.co.casa_int.repository.UserMgRepo;
 import kr.co.casa_int.service.UserMgService;
 import kr.co.casa_int.utils.PhoneNumberChk;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -29,12 +31,54 @@ import java.util.Objects;
 @RequestMapping( value = "/user")
 // 임시로 다 뚫어둠
 @CrossOrigin("*")
-
+@Log4j2
 @RequiredArgsConstructor
 public class UserMgController {
 
     private final UserMgService service;
+    private final UserMgRepo userMgRepo;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
+
+    @GetMapping(value = {"/test/principal"})
+    public String principalTest(Principal principal) throws Exception {
+
+        log.info("principal test=[{}]",principal.getName());
+
+        return principal.getName();
+
+    }
+
+    @PostMapping(value = {"/leaveMember"})
+    public ResponseEntity<String> leaveMember(Principal principal) throws Exception {
+
+        String userUid = "";
+
+        // 로그인한 사용자 정보 가져오기.
+        try {
+            // 로그인했을 때.
+            userUid = principal.getName();
+            log.info("leaveMember userUid=[{}]", userUid);
+        }catch (Exception e){
+            // 로그인하지 않았을 경우 종료
+            return new ResponseEntity<>(e.toString(), HttpStatus.NOT_FOUND);
+        }
+        User userInfo = userMgRepo.findByUid(userUid);
+        Long userId = userInfo.getId();
+        log.info("leaveMember userInfo=[{}]", userInfo.toString());
+
+        // 회원탈퇴 프로세스
+        try {
+            log.info("leaveMember success");
+            return new ResponseEntity<>(service.leaveMember(userId).toString(), HttpStatus.OK);
+        }catch (Exception e){
+            log.info("leaveMember error=[{}]", service.leaveMember(userId).toString());
+            return new ResponseEntity<>(service.leaveMember(userId).toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
 
     @GetMapping(value = {"justLoginPage"})
     public String justLoginPage() throws  Exception {
