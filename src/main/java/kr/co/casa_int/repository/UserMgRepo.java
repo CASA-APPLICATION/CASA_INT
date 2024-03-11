@@ -12,8 +12,10 @@ import java.util.Optional;
 public interface UserMgRepo extends JpaRepository<User, Integer> {
 
 
+    // userUid 로 유저 정보 탐색
     User findByUid(String uid);
 
+    // 유저 고유 userId 번호로 유저 정보 탐색디
     Optional<User> findById(Long id);
 
 }

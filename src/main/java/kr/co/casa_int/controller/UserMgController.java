@@ -1,13 +1,17 @@
 package kr.co.casa_int.controller;
 
 import kr.co.casa_int.dto.updateUserInfo;
+import kr.co.casa_int.entity.Article;
+import kr.co.casa_int.entity.LikeArticle;
 import kr.co.casa_int.entity.User;
+import kr.co.casa_int.repository.LikeArticleRepo;
 import kr.co.casa_int.repository.UserMgRepo;
 import kr.co.casa_int.service.UserMgService;
 import kr.co.casa_int.utils.PhoneNumberChk;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.tomcat.util.http.parser.HttpParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,9 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.beans.PropertyEditorSupport;
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author gyutae park
@@ -35,19 +37,70 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserMgController {
 
+    // 여기서 서버 저장 경로를 적어주자.
+
     private final UserMgService service;
     private final UserMgRepo userMgRepo;
     private final Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
+    private final LikeArticleRepo likeArticleRepo;
 
-    @GetMapping(value = {"/test/principal"})
-    public String principalTest(Principal principal) throws Exception {
-
-        log.info("principal test=[{}]",principal.getName());
-
-        return principal.getName();
-
+    // 장바구니 보기
+    @GetMapping(value = {"/showBasket"})
+    public ResponseEntity<List<Article>> showBasket(Principal principal) throws Exception{
+        return service.showBasket(principal);
+    }
+    // 장바구니 담기
+    @PutMapping(value = {"/addBasket"})
+    public ResponseEntity<String> addBasket(Article article, Principal principal) throws Exception{
+        return service.addBasket(article, principal);
     }
 
+    // 장바구니 삭제
+    @DeleteMapping(value = {"/deleteBasket"})
+    public ResponseEntity<String> deleteBasket(Article article ,Principal principal) throws Exception{
+        return service.deleteBasket(article, principal);
+    }
+
+    // 프로필 수정
+    @PostMapping(value = {"/modifyProfile"})
+    public ResponseEntity<String> modifyProfile(User user, Principal principal) throws Exception{
+        // 수정하고자 하는 데이터가 무엇인지.?
+        // 이메일, 비밀번호, 닉네임, 휴대폰 번호, 역할(구매자 & 판매자), 이미지, 등등...
+
+        
+
+        return null;
+    }
+
+    // 20240226 북마크 기능
+    // 20240311 북마크 -> 좋아요로 변경
+    @PostMapping(value = {"/likeArticle"})
+    public ResponseEntity<String> likeArticle(LikeArticle likeArticle, Principal principal) throws  Exception {
+
+        String response = service.likeArticle(likeArticle, principal).toString();
+
+        try {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 20240308 북마크 해제 기능
+    // 20240311 북마크 -> 좋아요로 변경
+    @DeleteMapping(value = {"/unLikeArticle"})
+    public ResponseEntity<String> unBookMark(LikeArticle likeArticle, Principal principal) throws Exception{
+
+        String response = service.unLikeArticle(likeArticle, principal).toString();
+
+        try {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 회원 탈퇴
     @PostMapping(value = {"/leaveMember"})
     public ResponseEntity<String> leaveMember(Principal principal) throws Exception {
 
@@ -79,6 +132,16 @@ public class UserMgController {
 
 
 
+    // 밑에서부터 test 코드
+
+    @GetMapping(value = {"/test/principal"})
+    public String principalTest(Principal principal) throws Exception {
+
+        log.info("principal test=[{}]",principal.getName());
+
+        return principal.getName();
+
+    }
 
     @GetMapping(value = {"justLoginPage"})
     public String justLoginPage() throws  Exception {

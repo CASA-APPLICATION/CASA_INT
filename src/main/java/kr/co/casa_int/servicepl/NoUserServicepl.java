@@ -1,5 +1,6 @@
 package kr.co.casa_int.servicepl;
 
+import kr.co.casa_int.entity.Article;
 import kr.co.casa_int.security.SecurityConfig;
 import kr.co.casa_int.dto.UserDto;
 import kr.co.casa_int.entity.User;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpServerErrorException;
 
 import java.util.HashMap;
@@ -27,6 +29,9 @@ public class NoUserServicepl implements NoUserService {
     private final PasswordEncoder passwordEncoder;
     private final ModelMapper modelMapper;
 
+
+    // 회원가입
+    @Transactional
     public ResponseEntity<String> registerNewMember(User userInfo) throws Exception {
 
         log.info("userInfo=[{}]",userInfo);
@@ -39,6 +44,12 @@ public class NoUserServicepl implements NoUserService {
         // 여기서 비밀번호를 인코딩해서 저장.
         userInfo.setUpw(passwordEncoder.encode(userInfo.getUpw()));
         userInfo.setLeaveUser("False");
+        // 사용자 이름 암호화 저장.
+        userInfo.setUserName(passwordEncoder.encode(userInfo.getUserName()));
+        // 사용자 주민번호 암호화 저장.
+        userInfo.setUserResidentRegistrationNumber(passwordEncoder.encode(user.getUserResidentRegistrationNumber()));
+
+
         log.info("userDto=[{}]",userInfo);
         // 회원 아이디 중복 확인
         if ( noUserMgRepo.findByUid(userInfo.getUid()) != null ) {
