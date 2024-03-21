@@ -1,12 +1,13 @@
 package kr.co.casa_int.servicepl;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import kr.co.casa_int.entity.Article;
 import kr.co.casa_int.repository.ArticleRepo;
 import kr.co.casa_int.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +44,17 @@ public class ArticleServicepl implements ArticleService {
     public List<Article> findByArticleCtg(String number) {
         return articleRepo.findByArticleCtg(number);
     }
+
+    @Override
+    public Page<Article> findAllPaginated(Pageable pageable) {
+        return articleRepo.findAll(pageable);
+    }
+
+    @Override
+    public Page<Article> findByArticleCtgPaginated(String category, Pageable pageable) {
+        return articleRepo.findByArticleCtg(category, pageable);
+    }
+
 
 //    @Override
 //    public List<Article> findByArticleCtg(String number){

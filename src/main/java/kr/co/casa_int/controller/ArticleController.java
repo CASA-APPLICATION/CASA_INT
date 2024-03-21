@@ -16,6 +16,8 @@ import kr.co.casa_int.service.UserMgService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +50,8 @@ public class ArticleController {
     //private final EntityManager entityManager;
 
     @GetMapping("/get/user/article/{where}/{number}")
-    public ResponseEntity<Object> getArticle(@PathVariable(name ="where") String specificArticle,@PathVariable(name="number", required = false) String number, Principal principal) throws  Exception {
+    public ResponseEntity<Object> getArticle(@PathVariable(name ="where") String specificArticle,@RequestParam(name = "page", defaultValue = "0") int page
+                                            ) throws  Exception {
 
         /**
          * 작품조회의 3가지 종류
@@ -61,21 +64,22 @@ public class ArticleController {
         try {
             // 전체 검색일 경우
             if (Objects.equals(specificArticle, "all")){
-                List<Article> articles = articleService.findAll();
-                return new ResponseEntity<>(articles, HttpStatus.OK);
+//                List<Article> articles = articleService.findAll();
+                Page<Article> articlesPage = articleService.findAllPaginated(PageRequest.of(page, 10));
+                return new ResponseEntity<>(articlesPage, HttpStatus.OK);
             }
             // 타입 검색일 경우
-            else if (Objects.equals(specificArticle, "category") && number != null){
-                List<Article> articles = articleService.findByArticleCtg(number);
-                return new ResponseEntity<>(articles, HttpStatus.OK);
+            else{
+//                List<Article> articles = articleService.findByArticleCtg(number);
+                Page<Article> articlesPage = articleService.findByArticleCtgPaginated(specificArticle, PageRequest.of(page, 10));
+                return new ResponseEntity<>(articlesPage, HttpStatus.OK);
             }
 
-            return new ResponseEntity<>(HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(HttpStatus.OK);
     }
     @ApiOperation(
             value = "작품 등록"
