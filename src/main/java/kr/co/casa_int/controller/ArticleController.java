@@ -143,4 +143,16 @@ public class ArticleController {
         }
     }
 
+    // 이번 달에 생성된 작품 조회 API
+    @GetMapping("/get/new-articles")
+    public ResponseEntity<Object> getNewArticlesThisMonth() {
+        try {
+            List<Article> newArticles = articleService.getNewArticlesThisMonth();
+            return new ResponseEntity<>(newArticles, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

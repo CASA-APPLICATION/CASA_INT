@@ -21,9 +21,11 @@ public interface ArticleService {
 
     Page<Article> findByArticleCtgPaginated(String category, Pageable pageable);
 
-    Page<Article> findNewArticleOfThisMonth();
-
     void deleteArticle(int id);
 
     void updateArticle(Article article);
+
+    public List<Article> getNewArticlesThisMonth();
+
+
 }

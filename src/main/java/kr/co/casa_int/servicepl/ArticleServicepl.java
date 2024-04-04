@@ -10,6 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -56,11 +59,6 @@ public class ArticleServicepl implements ArticleService {
     }
 
     @Override
-    public Page<Article> findNewArticleOfThisMonth() {
-        return null;
-    }
-
-    @Override
     public void deleteArticle(int id) {
         articleRepo.deleteById(id);
     }
@@ -70,24 +68,16 @@ public class ArticleServicepl implements ArticleService {
         articleRepo.save(article);
     }
 
-//    @Override
-//    public Page<Article> findNewArticleOfThisMonth() {
-//        return articleRepo.findByArticle
-//    }
+    public List<Article> getNewArticlesThisMonth() {
+        LocalDate now = LocalDate.now();
+        LocalDate firstDayOfMonth = now.withDayOfMonth(1);
+        LocalDate lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth());
 
+        Date startDate = Date.from(firstDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(lastDayOfMonth.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-//    @Override
-//    public List<Article> findByArticleCtg(String number){
-//        TypedQuery<Article> findQuery = em.createQuery("select a from Article as a where a.articleCtg = :number", Article.class);
-//        List<Article> result = findQuery.getResultList();
-//
-//
-//        return result;
-//    }
+        return articleRepo.findByCreatedAtBetween(startDate, endDate);
+    }
 
-//    @Override public Optional findByName(String name) {
-//        List result = em.createQuery("select m from Member m where m.name = :name", Member.class).setParameter("name", name) .getResultList();
-//        return result.stream().findAny();
-//    }
 
 }

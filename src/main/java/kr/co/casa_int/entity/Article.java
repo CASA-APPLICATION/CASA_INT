@@ -3,6 +3,7 @@ package kr.co.casa_int.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -92,6 +93,9 @@ public class Article {
 
     @Column(name = "article_ban")
     private String articleBan;
+
+    @Column(name = "created_at")
+    private Date createdAt;
 
 
 
