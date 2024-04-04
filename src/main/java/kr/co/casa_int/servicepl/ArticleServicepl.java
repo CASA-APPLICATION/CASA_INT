@@ -55,6 +55,26 @@ public class ArticleServicepl implements ArticleService {
         return articleRepo.findByArticleCtg(category, pageable);
     }
 
+    @Override
+    public Page<Article> findNewArticleOfThisMonth() {
+        return null;
+    }
+
+    @Override
+    public void deleteArticle(int id) {
+        articleRepo.deleteById(id);
+    }
+
+    @Override
+    public void updateArticle(Article article) {
+        articleRepo.save(article);
+    }
+
+//    @Override
+//    public Page<Article> findNewArticleOfThisMonth() {
+//        return articleRepo.findByArticle
+//    }
+
 
 //    @Override
 //    public List<Article> findByArticleCtg(String number){

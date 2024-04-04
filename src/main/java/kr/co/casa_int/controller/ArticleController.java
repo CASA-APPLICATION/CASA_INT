@@ -49,7 +49,7 @@ public class ArticleController {
 
     //private final EntityManager entityManager;
 
-    @GetMapping("/get/user/article/{where}/{number}")
+    @GetMapping("/get/user/article/{where}")
     public ResponseEntity<Object> getArticle(@PathVariable(name ="where") String specificArticle,@RequestParam(name = "page", defaultValue = "0") int page
                                             ) throws  Exception {
 
@@ -81,6 +81,20 @@ public class ArticleController {
         }
 
     }
+
+//    @GetMapping("/get/user/article/new")
+//    public ResponseEntity<Object> getNewArticleOfThisMonth() throws  Exception {
+//
+//
+//                Page<Article> articlesPage = articleService.findNewArticleOfThisMonth();
+//                return new ResponseEntity<>(articlesPage, HttpStatus.OK);
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//
+//    }
     @ApiOperation(
             value = "작품 등록"
             , notes = "현재, 회원과 관련된 api 와 테이블이 정확히 정의가 안 되어 있어서, 하드코딩으로 하나의 유저가 있다고 가정하여 진행됨")
@@ -103,6 +117,30 @@ public class ArticleController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    // Article 삭제 API
+    @DeleteMapping("/delete/article/{id}")
+    public ResponseEntity<Object> deleteArticle(@PathVariable int id) {
+        try {
+            articleService.deleteArticle(id);
+            return new ResponseEntity<>("Article deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Article 업데이트 API
+    @PutMapping("/update/article")
+    public ResponseEntity<Object> updateArticle(@RequestBody Article article) {
+        try {
+            articleService.updateArticle(article);
+            return new ResponseEntity<>("Article updated successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
