@@ -14,6 +14,7 @@ public interface ArticleRepo extends JpaRepository<Article, Integer> {
     List<Article> findByArticleCtg(String ctg);
     Page<Article> findAll(Pageable pageable);
     Page<Article> findByArticleCtg(String category, Pageable pageable);
+//    Page<Article> findByDate
 //    public Article findByUser_userId(String userId);
     //public List<Article> findByArticleCtgAndUserId(String ctg, int id);
 
